@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import { AppState } from '.';
-import { FetchNewsSuccess, ToggleLoading } from '../actions/news.actions';
+import { FetchNewsSuccess, StartLoading, StopLoading } from '../actions/news.actions';
 import { NewsData } from '../models/news.data';
 
 export interface NewsState {
@@ -15,7 +15,8 @@ export const initialState = {
 
 const _newsReducer = createReducer(
   initialState,
-  on(ToggleLoading, state => ({...state, isLoading: !state.isLoading})),
+  on(StartLoading, state => ({...state, isLoading: true})),
+  on(StopLoading, state => ({...state, isLoading: false})),
   on(FetchNewsSuccess, (state, action) => ({...state, news: action.news}))
 );
 

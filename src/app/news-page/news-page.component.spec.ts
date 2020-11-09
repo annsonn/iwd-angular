@@ -1,14 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { MaterialModule } from '../material.module';
 
 import { NewsPageComponent } from './news-page.component';
 
 describe('NewsPageComponent', () => {
   let component: NewsPageComponent;
   let fixture: ComponentFixture<NewsPageComponent>;
+  const initialState = { news: {} };
+
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewsPageComponent ]
+      imports: [MaterialModule],
+      declarations: [ NewsPageComponent ],
+      providers: [
+        provideMockStore({ initialState }),
+        // other providers
+      ],
     })
     .compileComponents();
   });

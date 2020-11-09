@@ -22,4 +22,17 @@ describe('HomePageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it(`should have as title 'iwd-angular'`, () => {
+    const fixture = TestBed.createComponent(HomePageComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('iwd-angular');
+  });
+
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(HomePageComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('.card span').textContent).toContain('iwd-angular app is running!');
+  });
 });

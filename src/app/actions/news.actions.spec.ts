@@ -1,7 +1,7 @@
 import * as fromNews from './news.actions';
 
-describe('fetchNews', () => {
+describe('FetchNews', () => {
   it('should return an action', () => {
-    expect(fromNews.FetchNews().type).toBe('[News] fetchNews');
+    expect(fromNews.FetchNews().type).toBe('[News] FetchNews');
   });
 });
