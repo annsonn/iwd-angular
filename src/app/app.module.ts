@@ -24,6 +24,9 @@ import { MaterialModule } from './material.module';
     HomePageComponent,
     FooterComponent
   ],
+  exports: [
+    FooterComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,    
