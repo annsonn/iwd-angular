@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { FetchNews } from '../actions/news.actions';
 import { MaterialModule } from '../material.module';
 import { AppState } from '../reducers';
 import { selectNewsItems } from '../reducers/news.reducer';
@@ -30,6 +31,10 @@ describe('NewsPageComponent', () => {
     component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
+
+  it('should dispatch fetch news on init', () => {
+    mockStore.scannedActions$.subscribe(action => expect(action).toEqual(FetchNews()));
+  })
 
   it('should render news title abd show spinner', () => {
     const compiledElement: HTMLElement = fixture.nativeElement;
