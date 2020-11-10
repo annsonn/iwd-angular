@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { FetchNews } from '../actions/news.actions';
-import { NewsData } from '../models/news.data';
 import { AppState } from '../reducers';
 import { selectNewsItems } from '../reducers/news.reducer';
 
@@ -13,13 +11,11 @@ import { selectNewsItems } from '../reducers/news.reducer';
 })
 export class NewsPageComponent implements OnInit {
 
-  newsItems$: Observable<NewsData[]>;
-  constructor(private store: Store<AppState>) { 
-    this.newsItems$ = this.store.pipe(select(selectNewsItems))
-  }
+  newsItems$ = this.store.select(selectNewsItems);
+
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.store.dispatch(FetchNews());
   }
-
 }
