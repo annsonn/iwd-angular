@@ -1,36 +1,51 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MemoizedSelector } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MaterialModule } from '../material.module';
+import { AppState } from '../reducers';
+import { selectNewsItems } from '../reducers/news.reducer';
 
 import { NewsPageComponent } from './news-page.component';
 
 describe('NewsPageComponent', () => {
   let component: NewsPageComponent;
   let fixture: ComponentFixture<NewsPageComponent>;
-  const initialState = { news: {} };
+  const initialState = {news: {}};
+  let mockStore: MockStore;
+  let mockNewItemsSelector;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MaterialModule],
       declarations: [ NewsPageComponent ],
-      providers: [
-        provideMockStore({ initialState }),
-        // other providers
-      ],
+      providers: [ provideMockStore({initialState}),],
     })
     .compileComponents();
     fixture = TestBed.createComponent(NewsPageComponent);
-    component = fixture.componentInstance;
+    mockStore = TestBed.inject(MockStore);    
     fixture.detectChanges();
   });
 
   it('should create', () => {
+    component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 
-  it('should render news title', () => {
+  it('should render news title abd show spinner', () => {
     const compiledElement: HTMLElement = fixture.nativeElement;
     expect(compiledElement.querySelector('h1').textContent).toContain("NEWS AND UPDATES");
+    expect(compiledElement.querySelector('mat-spinner')).toBeTruthy();
+  })
+
+  it('should render empty list', () => {
+    mockNewItemsSelector = mockStore.overrideSelector(
+      selectNewsItems,
+      [{text: 'Intelliware Sponsors', url: 'https://intelliware.com'}]
+    );
+    mockStore.refreshState();
+    fixture.detectChanges();
+    const compiledElement: HTMLElement = fixture.nativeElement;
+    expect(compiledElement.querySelectorAll('.news-item').length).toBe(1);
   })
  
 });

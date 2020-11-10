@@ -1,4 +1,4 @@
-import {createReducer, on} from '@ngrx/store';
+import {createReducer, createSelector, on} from '@ngrx/store';
 import { AppState } from '.';
 import { FetchNewsSuccess, StartLoading, StopLoading } from '../actions/news.actions';
 import { NewsData } from '../models/news.data';
@@ -22,6 +22,9 @@ const _newsReducer = createReducer(
 
 export const selectNewsContext = (state: AppState) => state.news;
 
-export const selectNewsItems = (state: AppState) => selectNewsContext(state).news;
+export const selectNewsItems = createSelector(
+  selectNewsContext,
+  (state: NewsState) => state.news
+);
 
 export const newsReducer = (state, action) => _newsReducer(state,action);
