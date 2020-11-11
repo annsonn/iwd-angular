@@ -11,34 +11,35 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { StoreModule } from '@ngrx/store';
 import { HttpClientModule } from '@angular/common/http';
-import { reducers, metaReducers } from './reducers';
+import { reducers, metaReducers } from './app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
-import { NewsEffects } from './effects/news.effects';
 import { MaterialModule } from './material.module';
+import { NewsFeedModule } from './news-feed/news-feed.module';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewsPageComponent,
     HomePageComponent,
-    FooterComponent
+    FooterComponent,
   ],
-  exports: [
-    FooterComponent
-  ],
+  exports: [FooterComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,    
+    AppRoutingModule,
     BrowserAnimationsModule,
+    NewsFeedModule,
     HttpClientModule,
     MaterialModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
     StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([NewsEffects])
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

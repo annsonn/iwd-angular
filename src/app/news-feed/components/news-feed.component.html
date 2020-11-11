@@ -1,0 +1,19 @@
+<div>
+  <ng-container *ngIf="(isLoading$ | async) === true; else showNewsItems">
+    <mat-spinner></mat-spinner>
+  </ng-container>
+  <ng-template #showNewsItems>
+    <div *ngIf="newsItems$ | async as newsItems">
+      <mat-card *ngFor="let newsItem of newsItems" class="news-item">
+        <mat-card-header>
+          <mat-card-title>
+            {{ newsItem.text }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+          <a mat-button target="_blank" [href]="newsItem.url">Read More</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </ng-template>
+</div>

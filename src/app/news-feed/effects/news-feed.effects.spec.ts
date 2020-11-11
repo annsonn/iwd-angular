@@ -7,29 +7,31 @@ import {
   FetchNewsSuccess,
   StartLoading,
   StopLoading,
-} from '../actions/news.actions';
-import { NewsService } from '../services/news.service';
+} from '../actions/news-feed.actions';
+import { NewsFeedService } from '../services/news-feed.service';
 
-import { NewsEffects } from './news.effects';
+import { NewsFeedEffects } from './news-feed.effects';
 
-describe('NewsEffects', () => {
+describe('NewsFeedEffects', () => {
   let actions$: Observable<any>;
-  let effects: NewsEffects;
-  let newsService: jasmine.SpyObj<NewsService>;
+  let effects: NewsFeedEffects;
+  let newsService: jasmine.SpyObj<NewsFeedService>;
 
   beforeEach(() => {
     const spy = jasmine.createSpyObj('NewsService', ['fetchNews']);
 
     TestBed.configureTestingModule({
       providers: [
-        NewsEffects,
+        NewsFeedEffects,
         provideMockActions(() => actions$),
-        { provide: NewsService, useValue: spy },
+        { provide: NewsFeedService, useValue: spy },
       ],
     });
 
-    effects = TestBed.inject(NewsEffects);
-    newsService = TestBed.inject(NewsService) as jasmine.SpyObj<NewsService>;
+    effects = TestBed.inject(NewsFeedEffects);
+    newsService = TestBed.inject(NewsFeedService) as jasmine.SpyObj<
+      NewsFeedService
+    >;
   });
 
   it('should be created', () => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
 import {
   FetchNews,
@@ -9,11 +9,11 @@ import {
   FetchNewsFailure,
   StartLoading,
   StopLoading,
-} from '../actions/news.actions';
-import { NewsService } from '../services/news.service';
+} from '../actions/news-feed.actions';
+import { NewsFeedService } from '../services/news-feed.service';
 
 @Injectable()
-export class NewsEffects {
+export class NewsFeedEffects {
   @Effect()
   fetchNews$ = createEffect(() =>
     this.actions$.pipe(
@@ -45,5 +45,8 @@ export class NewsEffects {
     )
   );
 
-  constructor(private actions$: Actions, private newsService: NewsService) {}
+  constructor(
+    private actions$: Actions,
+    private newsService: NewsFeedService
+  ) {}
 }

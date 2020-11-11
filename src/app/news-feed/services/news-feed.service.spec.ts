@@ -1,26 +1,25 @@
 import { TestBed } from '@angular/core/testing';
-import { NewsService } from './news.service';
+import { NewsFeedService } from './news-feed.service';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
 
-describe('NewsService', () => {
-  let fixture: NewsService;
+describe('NewsFeedService', () => {
+  let fixture: NewsFeedService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [NewsService],
+      providers: [NewsFeedService],
     });
-    fixture = TestBed.inject(NewsService);
+    fixture = TestBed.inject(NewsFeedService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
-    const service: NewsService = TestBed.inject(NewsService);
+    const service: NewsFeedService = TestBed.inject(NewsFeedService);
     expect(service).toBeTruthy();
   });
 
