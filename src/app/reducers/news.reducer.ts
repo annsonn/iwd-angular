@@ -8,7 +8,7 @@ export interface NewsState {
   news: Array<NewsData> | null;
 }
 
-export const initialState = {
+export const initialState: NewsState = {
   isLoading: false,
   news: null,
 };
@@ -20,11 +20,6 @@ const _newsReducer = createReducer(
   on(FetchNewsSuccess, (state, action) => ({...state, news: action.news}))
 );
 
-export const selectNewsContext = (state: AppState) => state.news;
 
-export const selectNewsItems = createSelector(
-  selectNewsContext,
-  (state: NewsState) => state.news
-);
 
 export const newsReducer = (state, action) => _newsReducer(state,action);

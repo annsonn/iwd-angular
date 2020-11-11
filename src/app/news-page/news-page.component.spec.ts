@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FetchNews } from '../actions/news.actions';
 import { MaterialModule } from '../material.module';
-import { AppState } from '../reducers';
-import { selectNewsItems } from '../reducers/news.reducer';
+import { isFetchingNewsItems, selectNewsItems } from '../selectors/news.selectors';
 
 import { NewsPageComponent } from './news-page.component';
 
@@ -37,6 +35,12 @@ describe('NewsPageComponent', () => {
   })
 
   it('should render news title abd show spinner', () => {
+    mockNewItemsSelector = mockStore.overrideSelector(
+      isFetchingNewsItems,
+      true
+    );
+    mockStore.refreshState();
+    fixture.detectChanges();
     const compiledElement: HTMLElement = fixture.nativeElement;
     expect(compiledElement.querySelector('h1').textContent).toContain("NEWS AND UPDATES");
     expect(compiledElement.querySelector('mat-spinner')).toBeTruthy();
@@ -46,6 +50,10 @@ describe('NewsPageComponent', () => {
     mockNewItemsSelector = mockStore.overrideSelector(
       selectNewsItems,
       [{text: 'Intelliware Sponsors', url: 'https://intelliware.com'}]
+    );
+    mockNewItemsSelector = mockStore.overrideSelector(
+      isFetchingNewsItems,
+      false
     );
     mockStore.refreshState();
     fixture.detectChanges();

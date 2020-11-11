@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FetchNews } from '../actions/news.actions';
 import { AppState } from '../reducers';
-import { selectNewsItems } from '../reducers/news.reducer';
+import { isFetchingNewsItems, selectNewsItems } from '../selectors/news.selectors';
 
 @Component({
   selector: 'app-news-page',
@@ -11,6 +11,7 @@ import { selectNewsItems } from '../reducers/news.reducer';
 })
 export class NewsPageComponent implements OnInit {
 
+  isLoading$ = this.store.select(isFetchingNewsItems);
   newsItems$ = this.store.select(selectNewsItems);
 
   constructor(private store: Store<AppState>) { }

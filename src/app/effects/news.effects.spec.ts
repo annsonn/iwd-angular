@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable, of } from 'rxjs';
-import { FetchNews, FetchNewsSuccess } from '../actions/news.actions';
+import { FetchNews, FetchNewsSuccess, StartLoading, StopLoading } from '../actions/news.actions';
 import { NewsService } from '../services/news.service';
 
 import { NewsEffects } from './news.effects';
@@ -42,4 +42,22 @@ describe('NewsEffects', () => {
       done();
     });
   });
+
+  it('should start loading on fetch news', (done) => {
+    actions$ = of(FetchNews());
+
+    effects.startLoading$.subscribe((action) => {
+      expect(action).toEqual(StartLoading());
+      done();
+    });
+  })
+
+  it('should stop loading on fetch news successs', (done) => {
+    actions$ = of(FetchNewsSuccess({news: [{}]}));
+
+    effects.stopLoading$.subscribe((action) => {
+      expect(action).toEqual(StopLoading());
+      done();
+    });
+  })
 });
