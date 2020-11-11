@@ -4,7 +4,7 @@ import {
   StartLoading,
   StopLoading,
 } from './actions/news-feed.actions';
-import { NewsData } from '../models/news.data';
+import { NewsData } from './models/news.data';
 
 export interface NewsState {
   isLoading: Boolean | null;
