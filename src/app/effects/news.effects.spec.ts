@@ -1,7 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable, of } from 'rxjs';
-import { FetchNews, FetchNewsSuccess, StartLoading, StopLoading } from '../actions/news.actions';
+import { Observable, of, throwError } from 'rxjs';
+import {
+  FetchNews,
+  FetchNewsFailure,
+  FetchNewsSuccess,
+  StartLoading,
+  StopLoading,
+} from '../actions/news.actions';
 import { NewsService } from '../services/news.service';
 
 import { NewsEffects } from './news.effects';
@@ -18,8 +24,8 @@ describe('NewsEffects', () => {
       providers: [
         NewsEffects,
         provideMockActions(() => actions$),
-        { provide: NewsService, useValue: spy }
-      ]
+        { provide: NewsService, useValue: spy },
+      ],
     });
 
     effects = TestBed.inject(NewsEffects);
@@ -38,7 +44,18 @@ describe('NewsEffects', () => {
     actions$ = of(FetchNews());
 
     effects.fetchNews$.subscribe((action) => {
-      expect(action).toEqual(FetchNewsSuccess({news: [{id: 1}]}));
+      expect(action).toEqual(FetchNewsSuccess({ news: [{ id: 1 }] }));
+      done();
+    });
+  });
+
+  it('should fetch news and dispatch failure on error', (done) => {
+    newsService.fetchNews.and.returnValue(throwError('error'));
+
+    actions$ = of(FetchNews());
+
+    effects.fetchNews$.subscribe((action) => {
+      expect(action).toEqual(FetchNewsFailure({ error: 'error' }));
       done();
     });
   });
@@ -50,14 +67,14 @@ describe('NewsEffects', () => {
       expect(action).toEqual(StartLoading());
       done();
     });
-  })
+  });
 
   it('should stop loading on fetch news successs', (done) => {
-    actions$ = of(FetchNewsSuccess({news: [{}]}));
+    actions$ = of(FetchNewsSuccess({ news: [{}] }));
 
     effects.stopLoading$.subscribe((action) => {
       expect(action).toEqual(StopLoading());
       done();
     });
-  })
+  });
 });
