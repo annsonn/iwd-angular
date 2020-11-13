@@ -1,12 +1,28 @@
-import { ActionReducerMap, createReducer, MetaReducer } from '@ngrx/store';
-import { environment } from '../environments/environment';
+import { ActionReducer, createReducer, on } from '@ngrx/store';
+import { SetLanguage } from './app.actions';
 
-export interface AppState {}
+export const supportedLanguages = ['en', 'fr'];
 
-export const initialState: AppState = {};
+export interface AppState {
+  currentLanguage: string | null;
+}
 
-export const reducers: ActionReducerMap<AppState> = createReducer(initialState);
+export const appKey = 'app';
 
-export const metaReducers: MetaReducer<AppState>[] = !environment.production
-  ? []
-  : [];
+const defaultLanguage = 'en';
+
+export const initialState: AppState = {
+  currentLanguage: defaultLanguage,
+};
+
+export const appReducer: ActionReducer<AppState> = createReducer(
+  initialState,
+  on(SetLanguage, (state: AppState, { lang }) => ({
+    ...state,
+    currentLanguage: supportedLanguages.includes(lang) ? lang : defaultLanguage,
+  }))
+);
+
+export const reducers = {
+  [appKey]: appReducer,
+};

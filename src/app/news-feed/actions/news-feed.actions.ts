@@ -11,3 +11,7 @@ export const FetchNewsFailure = createAction(
   '[NewsFeed] FetchNewsFailure',
   props<{ error: any }>()
 );
+export const SetLanguage = createAction(
+  '[NewsFeed] SetLanguage',
+  props<{ lang: string }>()
+);

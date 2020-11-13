@@ -14,3 +14,8 @@ export const selectNewsItems = createSelector(
   selectNewsContext,
   (state: NewsState) => state.news
 );
+
+export const getCurrentLanguage = createSelector(
+  selectNewsContext,
+  (state: NewsState) => state.currentLanguage
+);

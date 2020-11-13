@@ -10,12 +10,18 @@ import { NewsPageComponent } from './news-page/news-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { StoreModule } from '@ngrx/store';
-import { HttpClientModule } from '@angular/common/http';
-import { reducers, metaReducers } from './app.reducer';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { reducers } from './app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MaterialModule } from './material.module';
 import { NewsFeedModule } from './news-feed/news-feed.module';
 import { EffectsModule } from '@ngrx/effects';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, 'assets/i18n/app/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -32,10 +38,18 @@ import { EffectsModule } from '@ngrx/effects';
     NewsFeedModule,
     HttpClientModule,
     MaterialModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
+      isolate: true,
+    }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
